@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "176419990611",
+    "firebase_url": "https://grocery-app-7d532.firebaseio.com",
+    "project_id": "grocery-app-7d532",
+    "storage_bucket": "grocery-app-7d532.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176419990611:android:0ff99cc4ce469a864deaa6",
+        "android_client_info": {
+          "package_name": "com.axactstudios.groceryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176419990611-s5a716kqn1sqkjafm8mc1nin0vh77ac6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.axactstudios.groceryapp",
+            "certificate_hash": "f039ba87bc2d5fb36b1c8a0a98e030ba8abf5c87"
+          }
+        },
+        {
+          "client_id": "176419990611-em6vvf7n5krhimq903o0cp2kal26eldh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj4Tx8FWC3VR8RKnIOkv6nc9Lrd09zogo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176419990611-em6vvf7n5krhimq903o0cp2kal26eldh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176419990611:android:5ee343c2e77a7edc4deaa6",
+        "android_client_info": {
+          "package_name": "com.piyushbajaj.groceryappstask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176419990611-arn4umtks7uugu5mluq82v8ud0rhjafa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.piyushbajaj.groceryappstask",
+            "certificate_hash": "f039ba87bc2d5fb36b1c8a0a98e030ba8abf5c87"
+          }
+        },
+        {
+          "client_id": "176419990611-em6vvf7n5krhimq903o0cp2kal26eldh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj4Tx8FWC3VR8RKnIOkv6nc9Lrd09zogo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176419990611-em6vvf7n5krhimq903o0cp2kal26eldh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
