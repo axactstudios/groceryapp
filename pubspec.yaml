@@ -16,6 +16,7 @@ dependencies:
   gps: ^0.1.1
   firebase_auth: ^0.18.0+1
   firebase_database: ^4.0.0
+  persistent_bottom_nav_bar: ^2.0.5
 
 dev_dependencies:
   flutter_test:

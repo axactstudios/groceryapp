@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps/gps.dart';
 import 'package:groceryapp/Classes/Constants.dart';
+import 'package:groceryapp/Screens/NavBar.dart';
 import 'package:latlng/latlng.dart';
 import 'package:map/map.dart';
 
@@ -317,12 +318,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         child: FloatingActionButton(
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-//                              Navigator.push(
-//                                context,
-//                                CupertinoPageRoute(
-//                                  builder: (context) => uiscreen(),
-//                                ),
-//                              );
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
                             }
                           },
                           backgroundColor: kAccentColor,
