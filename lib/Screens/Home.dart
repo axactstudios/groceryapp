@@ -1,10 +1,14 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:groceryapp/Classes/Categories.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/Shops.dart';
 import 'package:groceryapp/Widgets/SearchBar.dart';
 import 'package:groceryapp/Widgets/UserGreetingBar.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+import 'ShopScreens/ShopMainScreen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -20,6 +24,7 @@ class _HomeState extends State<Home> {
   bool isFetching = false;
 
   @override
+  // ignore: must_call_super
   void initState() {
     getShops();
   }
@@ -116,7 +121,9 @@ class _HomeState extends State<Home> {
           ),
           isFetching
               ? Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitFadingFour(
+                    color: kSecondaryColor,
+                  ),
                 )
               : (shops.length == 0
                   ? Center(
@@ -136,7 +143,15 @@ class _HomeState extends State<Home> {
                         itemBuilder: (context, index) {
                           var item = shops[index];
                           return GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              pushNewScreen(context,
+                                  screen: ShopMainScreen(
+                                    shop: item,
+                                    category:
+                                        categorylist[selectedcategory].name,
+                                  ),
+                                  withNavBar: false);
+                            },
                             child: Stack(children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(25),
