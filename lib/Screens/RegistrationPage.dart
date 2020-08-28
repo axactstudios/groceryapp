@@ -316,8 +316,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: FloatingActionButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState.validate()) {
+                              await writeData();
                               Navigator.push(
                                 context,
                                 CupertinoPageRoute(

@@ -156,6 +156,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.0.2"
+  google_sign_in:
+    dependency: "direct main"
+    description:
+      name: google_sign_in
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.5.3"
+  google_sign_in_platform_interface:
+    dependency: transitive
+    description:
+      name: google_sign_in_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
+  google_sign_in_web:
+    dependency: transitive
+    description:
+      name: google_sign_in_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.1+1"
   gps:
     dependency: "direct main"
     description:
@@ -177,7 +198,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
-
   image:
     dependency: transitive
     description:
@@ -192,7 +212,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
-
   js:
     dependency: transitive
     description:
@@ -437,6 +456,5 @@ packages:
     source: hosted
     version: "3.6.1"
 sdks:
-  dart: ">=2.9.0-14.0.dev <3.0.0"
-  flutter: ">=1.12.13+hotfix.4 <2.0.0"
-
+  dart: ">=2.8.0 <3.0.0"
+  flutter: ">=1.12.13+hotfix.5 <2.0.0"

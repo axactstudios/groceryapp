@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/CustomIcons.dart';
+import 'package:groceryapp/Screens/NavBar.dart';
 import 'package:groceryapp/Screens/RegistrationPage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController phone = new TextEditingController(text: '');
   TextEditingController otp = new TextEditingController(text: '');
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -206,7 +210,9 @@ class _LoginPageState extends State<LoginPage> {
                                         color: Colors.white,
                                       ),
                                       iconSize: 50,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _handleSignIn();
+                                      },
                                     )),
                               ),
                             ],
@@ -278,12 +284,29 @@ class _LoginPageState extends State<LoginPage> {
           .signInWithCredential(phoneAuthCredential)
           .then((AuthResult value) {
         if (value.user != null) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RegistrationPage(),
-              ),
-              (Route<dynamic> route) => false);
+          final dbRef = FirebaseDatabase.instance
+              .reference()
+              .child('Users')
+              .child(value.user.uid);
+          dbRef.once().then((DataSnapshot snapshot) async {
+            String name = await snapshot.value['name'];
+            if (name == null) {
+              Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => RegistrationPage(),
+                ),
+              );
+            } else {
+              print(name);
+              Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              );
+            }
+          });
         } else {
           showToast("Error validating OTP, try again", Colors.white);
         }
@@ -334,15 +357,71 @@ class _LoginPageState extends State<LoginPage> {
         .signInWithCredential(_authCredential)
         .then((AuthResult value) {
       if (value.user != null) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => RegistrationPage()),
-            (Route<dynamic> route) => false);
+        final dbRef = FirebaseDatabase.instance
+            .reference()
+            .child('Users')
+            .child(value.user.uid);
+        dbRef.once().then((DataSnapshot snapshot) async {
+          String name = await snapshot.value['name'];
+          if (name == null) {
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => RegistrationPage(),
+              ),
+            );
+          } else {
+            print(name);
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => HomePage(),
+              ),
+            );
+          }
+        });
       } else {
         showToast("Error validating OTP, try again", Colors.white);
       }
     }).catchError((error) {
       showToast("Something went wrong", Colors.white);
     });
+  }
+
+  Future<FirebaseUser> _handleSignIn() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user =
+        (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    if (user != null) {
+      final dbRef =
+          FirebaseDatabase.instance.reference().child('Users').child(user.uid);
+      dbRef.once().then((DataSnapshot snapshot) async {
+        if (snapshot.value == null) {
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => RegistrationPage(),
+            ),
+          );
+        } else {
+          print(snapshot.value);
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => HomePage(),
+            ),
+          );
+        }
+      });
+    }
+    return user;
   }
 }

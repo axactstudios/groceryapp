@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:groceryapp/Screens/LoginScreen.dart';
 import 'package:groceryapp/Screens/NavBar.dart';
+import 'package:groceryapp/Screens/SplashScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: SplashScreen(),
     );
   }
 }
