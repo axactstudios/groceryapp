@@ -7,7 +7,6 @@ import 'package:groceryapp/Classes/Shops.dart';
 import 'package:groceryapp/Widgets/SearchBar.dart';
 import 'package:groceryapp/Widgets/UserGreetingBar.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
 import 'ShopScreens/ShopMainScreen.dart';
 
 class Home extends StatefulWidget {
