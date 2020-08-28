@@ -90,7 +90,7 @@ class DatabaseHelper {
   // column values will be used to update the row.
   Future<int> update(Products item) async {
     Database db = await instance.database;
-    String productName = item.toMap()['productName'];
+    String productName = item.toMap()['name'];
     return await db.update(table, item.toMap(),
         where: '$columnProductName = ?', whereArgs: [productName]);
   }

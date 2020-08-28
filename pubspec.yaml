@@ -24,6 +24,7 @@ dependencies:
   fluttertoast: ^7.0.2
   rflutter_alert: ^1.0.3
   google_sign_in: ^4.5.1
+  geocoder: ^0.2.1
 
 dev_dependencies:
   flutter_test:
