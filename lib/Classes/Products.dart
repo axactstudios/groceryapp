@@ -3,7 +3,8 @@ import 'DatabaseHelper.dart';
 class Products {
   int id, qty;
   String key, name, imageUrl, price, desc;
-  Products({this.name, this.imageUrl, this.desc, this.key, this.price});
+  Products(
+      {this.name, this.imageUrl, this.desc, this.key, this.price, this.qty});
 
   Products.fromMap(Map<String, dynamic> map) {
     id = map['id'];

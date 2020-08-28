@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/User.dart';
 
 class UserGreetingBar extends StatefulWidget {
@@ -12,6 +14,7 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
   FirebaseAuth mAuth = FirebaseAuth.instance;
 
   User userData = User();
+  String city = '';
 
   getUser() async {
     FirebaseUser user = await mAuth.currentUser();
@@ -27,7 +30,22 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
       userData.address = await snapshot.value['address'];
       setState(() {
         print('User fetched');
+        getLocation();
       });
+    });
+  }
+
+  getLocation() async {
+    double lat, lng;
+    lat = await double.parse(userData.lat);
+    lng = await double.parse(userData.lng);
+    final coordinates = new Coordinates(lat, lng);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    print(first.subAdminArea);
+    setState(() {
+      city = first.subAdminArea;
     });
   }
 
@@ -60,16 +78,41 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
-          trailing: IconButton(
-            onPressed: () {
-              print("Location Pressed");
-            },
-            icon: Icon(
-              Icons.location_on,
-              size: 30,
-            ),
-            color: Color(0xffF26016),
-          )),
+          trailing: city == null
+              ? IconButton(
+                  onPressed: () {
+                    print("Location Pressed");
+                  },
+                  icon: Icon(
+                    Icons.location_on,
+                    size: 30,
+                  ),
+                  color: Color(0xffF26016),
+                )
+              : Container(
+                  width: MediaQuery.of(context).size.width * 0.19,
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        city,
+                        style: TextStyle(
+                            color: kAccentColor,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          print("Location Pressed");
+                        },
+                        icon: Icon(
+                          Icons.location_on,
+                          size: 30,
+                        ),
+                        color: Color(0xffF26016),
+                      ),
+                    ],
+                  ),
+                )),
     );
   }
 }
