@@ -47,7 +47,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void writeData() async {
     // ignore: deprecated_member_use
-    FirebaseUser user = FirebaseAuth.instance.currentUser;
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
     var dbRef =
         FirebaseDatabase.instance.reference().child('Users').child(user.uid);
     dbRef.set({
