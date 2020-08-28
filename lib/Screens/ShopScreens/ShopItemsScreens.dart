@@ -2,10 +2,14 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:groceryapp/Classes/Constants.dart';
+import 'package:groceryapp/Classes/DatabaseHelper.dart';
 import 'package:groceryapp/Classes/Products.dart';
 import 'package:groceryapp/Classes/Shops.dart';
 import 'package:groceryapp/Widgets/SearchBar.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class ShopItemsScreen extends StatefulWidget {
@@ -18,6 +22,8 @@ class ShopItemsScreen extends StatefulWidget {
 }
 
 class _ShopItemsScreenState extends State<ShopItemsScreen> {
+  final dbHelper = DatabaseHelper.instance;
+
   List<String> categories = [];
   List<Products> products = [];
 
@@ -25,6 +31,16 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
   bool isFetchingProducts = false;
 
   int productsIndex = 0;
+  int length = 0;
+
+  getCartLength() async {
+    int x = await dbHelper.queryRowCount();
+    length = x;
+    setState(() {
+      print('Length Updated');
+      length;
+    });
+  }
 
   void getCategories() async {
     setState(() {
@@ -81,6 +97,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
   @override
   void initState() {
     getCategories();
+    getCartLength();
   }
 
   @override
@@ -210,40 +227,45 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                     )
                   : Container(
                       height: pHeight * 0.05,
-                      child: Row(
-                        children: <Widget>[
-                          ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: categories.length,
-                              itemBuilder: (context, index) {
-                                var item = categories[index];
-                                return InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      productsIndex = index;
-                                      getProducts();
-                                    });
-                                  },
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 16),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(
-                                              color: productsIndex == index
-                                                  ? kSecondaryColor
-                                                  : kSecondaryColor
-                                                      .withOpacity(0.5),
-                                              fontFamily: 'Poppins',
-                                              fontSize: pHeight * 0.025,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      )),
-                                );
-                              }),
-                        ],
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: categories.length,
+                                itemBuilder: (context, index) {
+                                  var item = categories[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        productsIndex = index;
+                                        getProducts();
+                                      });
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: 16, right: 16),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                                color: productsIndex == index
+                                                    ? kSecondaryColor
+                                                    : kSecondaryColor
+                                                        .withOpacity(0.5),
+                                                fontFamily: 'Poppins',
+                                                fontSize: pHeight * 0.025,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        )),
+                                  );
+                                }),
+                          ],
+                        ),
                       ),
                     )),
           SizedBox(
@@ -263,113 +285,197 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: products.length,
-                          itemBuilder: (context, index) {
-                            var item = products[index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Card(
-                                elevation: 6,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0,
-                                      top: 8.0,
-                                      bottom: 8.0,
-                                      right: 8.0),
-                                  child: Container(
-                                    height: pHeight * 0.15,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.network(
-                                            item.imageUrl,
-                                            height: pHeight * 0.15,
-                                            width: pWidth * 0.25,
-                                            fit: BoxFit.cover,
-                                          ),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          var item = products[index];
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Card(
+                              margin: EdgeInsets.only(bottom: 30.0),
+                              elevation: 6,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0,
+                                    right: 8.0),
+                                child: Container(
+                                  height: pHeight * 0.15,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          item.imageUrl,
+                                          height: pHeight * 0.15,
+                                          width: pWidth * 0.25,
+                                          fit: BoxFit.contain,
                                         ),
-                                        SizedBox(
-                                          width: pWidth * 0.02,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 12.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      item.name,
-                                                      style: TextStyle(
-                                                          color:
-                                                              kSecondaryColor,
-                                                          fontSize:
-                                                              pHeight * 0.02,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              'Poppins'),
-                                                    ),
-                                                    Text(
-                                                      item.desc,
-                                                      style: TextStyle(
-                                                          color:
-                                                              kSecondaryColor,
-                                                          fontSize:
-                                                              pHeight * 0.015,
-                                                          fontFamily:
-                                                              'Poppins'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Row(
+                                      ),
+                                      SizedBox(
+                                        width: pWidth * 0.02,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 12.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    'Rs. ',
+                                                    item.name,
                                                     style: TextStyle(
                                                         color: kSecondaryColor,
                                                         fontSize:
-                                                            pHeight * 0.018,
+                                                            pHeight * 0.02,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                            FontWeight.bold,
                                                         fontFamily: 'Poppins'),
                                                   ),
                                                   Text(
-                                                    item.price,
+                                                    item.desc,
                                                     style: TextStyle(
                                                         color: kSecondaryColor,
                                                         fontSize:
-                                                            pHeight * 0.018,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                            pHeight * 0.015,
                                                         fontFamily: 'Poppins'),
                                                   ),
                                                 ],
                                               ),
-                                              Container(
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Rs. ',
+                                                  style: TextStyle(
+                                                      color: kSecondaryColor,
+                                                      fontSize: pHeight * 0.018,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'Poppins'),
+                                                ),
+                                                Text(
+                                                  item.price,
+                                                  style: TextStyle(
+                                                      color: kSecondaryColor,
+                                                      fontSize: pHeight * 0.018,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'Poppins'),
+                                                ),
+                                              ],
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                SharedPreferences prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                if (length == 0) {
+                                                  addToCart(item, 1);
+                                                  prefs.setString('category',
+                                                      widget.category);
+                                                  prefs.setString(
+                                                      'key', widget.shop.key);
+                                                  prefs.setString(
+                                                      'name', widget.shop.name);
+                                                } else {
+                                                  String key;
+                                                  key = prefs.getString('key');
+                                                  if (key == widget.shop.key) {
+                                                    bool inCart;
+                                                    inCart =
+                                                        await _query(item.name);
+                                                    if (inCart) {
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              'Already in cart',
+                                                          toastLength: Toast
+                                                              .LENGTH_SHORT,
+                                                          textColor:
+                                                              Colors.black,
+                                                          backgroundColor:
+                                                              Colors.white);
+                                                    } else {
+                                                      addToCart(item, 1);
+                                                    }
+                                                  } else {
+                                                    String name = await prefs
+                                                        .getString('name');
+                                                    Alert(
+                                                      context: context,
+                                                      type: AlertType.warning,
+                                                      title: "ATTENTION",
+                                                      desc:
+                                                          "You already have items from $name in your cart. Do you wish to remove those items and continue?",
+                                                      buttons: [
+                                                        DialogButton(
+                                                          child: Text(
+                                                            "Yes",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20),
+                                                          ),
+                                                          onPressed: () async {
+                                                            emptyCart();
+                                                            prefs.setString(
+                                                                'key',
+                                                                widget
+                                                                    .shop.key);
+                                                            prefs.setString(
+                                                                'category',
+                                                                widget
+                                                                    .category);
+                                                            prefs.setString(
+                                                                'name',
+                                                                widget
+                                                                    .shop.name);
+                                                            await addToCart(
+                                                                item, 1);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          color: Colors.green,
+                                                        ),
+                                                        DialogButton(
+                                                          child: Text(
+                                                            "No",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20),
+                                                          ),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          color: Colors.red,
+                                                        )
+                                                      ],
+                                                    ).show();
+                                                  }
+                                                }
+                                              },
+                                              child: Container(
                                                 height: pHeight * 0.04,
                                                 width: pWidth * 0.574,
                                                 decoration: BoxDecoration(
@@ -388,19 +494,56 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            );
-                          }),
+                            ),
+                          );
+                        },
+                      ),
                     )),
         ],
       ),
     );
+  }
+
+  void addToCart(Products product, int qty) async {
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnProductName: product.name,
+      DatabaseHelper.columnImageUrl: product.imageUrl,
+      DatabaseHelper.columnPrice: product.price,
+      DatabaseHelper.columnQuantity: qty,
+      DatabaseHelper.columnDesc: product.desc
+    };
+    Products item = Products.fromMap(row);
+    final id = await dbHelper.insert(item);
+    Fluttertoast.showToast(
+        msg: 'Added to cart',
+        toastLength: Toast.LENGTH_SHORT,
+        textColor: Colors.black,
+        backgroundColor: Colors.white);
+    getCartLength();
+  }
+
+  Future<bool> _query(String name) async {
+    Products item;
+    final allRows = await dbHelper.queryRows(name);
+    allRows.forEach((row) => item = Products.fromMap(row));
+    if (item == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void emptyCart() async {
+    final rowsDeleted = await dbHelper.empty();
+    print('Cart empty');
+    getCartLength();
   }
 }
