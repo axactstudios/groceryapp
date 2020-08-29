@@ -7,6 +7,7 @@ import 'package:groceryapp/Classes/Shops.dart';
 import 'package:groceryapp/Widgets/SearchBar.dart';
 import 'package:groceryapp/Widgets/UserGreetingBar.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import '../Classes/Categories.dart';
 import 'ShopScreens/ShopMainScreen.dart';
 
 class Home extends StatefulWidget {
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Shops> shops = [];
-
+  List<String> shopNames = [];
   Color selectedcolor;
   int selectedcategory = 0;
 
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
       isFetching = true;
     });
     shops.clear();
+    shopNames.clear();
     var dbRef = FirebaseDatabase.instance
         .reference()
         .child(categorylist[selectedcategory].name);
@@ -47,7 +49,9 @@ class _HomeState extends State<Home> {
         newShop.desc = await value['desc'];
         newShop.contactnum = await value['phoneNo'].toString();
         newShop.imageUrl = await value['imageUrl'];
+        newShop.category = await categorylist[selectedcategory].name;
         shops.add(newShop);
+        shopNames.add(value['name']);
       });
       setState(() {
         isFetching = false;
@@ -67,7 +71,7 @@ class _HomeState extends State<Home> {
             height: pHeight * 0.02,
           ),
           UserGreetingBar(),
-          SearchBar(),
+          SearchBar(shops, shopNames, this),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
             child: Align(

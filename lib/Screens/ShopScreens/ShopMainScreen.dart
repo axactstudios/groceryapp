@@ -8,7 +8,8 @@ import 'package:groceryapp/Screens/ShopScreens/ShopItemsScreens.dart';
 class ShopMainScreen extends StatefulWidget {
   Shops shop = Shops();
   String category;
-  ShopMainScreen({this.shop, this.category});
+  State state;
+  ShopMainScreen({this.shop, this.category, this.state});
 
   @override
   _ShopMainScreenState createState() => _ShopMainScreenState();
@@ -23,6 +24,18 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
       backgroundColor: kPrimaryColor,
       body: Column(
         children: <Widget>[
+          SizedBox(
+            height: 50,
+          ),
+          InkWell(
+            onTap: () async {
+              await widget.state.setState(() {
+                print('sfs');
+              });
+              await Navigator.pop(context);
+            },
+            child: Text('Back'),
+          ),
           ClipRRect(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(15),

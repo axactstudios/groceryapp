@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/DatabaseHelper.dart';
 import 'package:groceryapp/Classes/Products.dart';
@@ -110,10 +111,6 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
         children: <Widget>[
           SizedBox(
             height: pHeight * 0.06,
-          ),
-          SearchBar(),
-          SizedBox(
-            height: pHeight * 0.02,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -253,13 +250,14 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                                           child: Text(
                                             item,
                                             style: TextStyle(
-                                                color: productsIndex == index
-                                                    ? kSecondaryColor
-                                                    : kSecondaryColor
-                                                        .withOpacity(0.5),
-                                                fontFamily: 'Poppins',
-                                                fontSize: pHeight * 0.025,
-                                                fontWeight: FontWeight.w600),
+                                              color: productsIndex == index
+                                                  ? kSecondaryColor
+                                                  : kSecondaryColor
+                                                      .withOpacity(0.5),
+                                              fontFamily: 'Poppins',
+                                              fontSize: pHeight * 0.025,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         )),
                                   );

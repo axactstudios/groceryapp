@@ -5,6 +5,7 @@ class Shops {
   String contactnum;
   String desc;
   String key;
+  String category;
 
   Shops(
       {this.imageUrl,
@@ -12,5 +13,6 @@ class Shops {
       this.address,
       this.contactnum,
       this.desc,
-      this.key});
+      this.key,
+      this.category});
 }
