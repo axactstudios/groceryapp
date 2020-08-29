@@ -143,7 +143,7 @@ class _CartState extends State<Cart> {
         .child('Orders')
         .child(dateTime)
         .set({
-      'isCompleted' : false,
+      'isCompleted': false,
       'orderDate': date,
       'orderTime': time,
       'orderAmount': orderAmount,
@@ -153,7 +153,7 @@ class _CartState extends State<Cart> {
       'orderKey': dateTime,
       'itemsName': itemsName,
       'itemsQty': itemsQty,
-      'status' : 'Placed',
+      'status': 'Placed',
       'shippingDate': 'Not yet shipped',
       'deliveryDate': 'Not yet delivered'
     });
@@ -165,8 +165,8 @@ class _CartState extends State<Cart> {
         .child('Orders')
         .child(dateTime)
         .set({
-      'isCompleted' : false,
-      'status' : 'Placed',
+      'isCompleted': false,
+      'status': 'Placed',
       'orderDate': date,
       'orderTime': time,
       'orderAmount': orderAmount,
@@ -199,6 +199,7 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    getAllItems();
     return Scaffold(
       body: Column(
         children: <Widget>[

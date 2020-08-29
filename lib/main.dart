@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:groceryapp/Screens/LoginScreen.dart';
-import 'package:groceryapp/Screens/NavBar.dart';
+
 import 'package:groceryapp/Screens/SplashScreen.dart';
 
 void main() {
