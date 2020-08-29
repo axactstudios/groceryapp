@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:gps/gps.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Screens/NavBar.dart';
@@ -41,7 +44,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
     lng = double.parse(latlng.lng);
     setState(() {
       controller.location = LatLng(lat, lng);
+      getLocation();
       print(latlng);
+    });
+  }
+
+  getLocation() async {
+    final coordinates = new Coordinates(lat, lng);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    print(first.subAdminArea);
+    setState(() {
+      address.text = first.addressLine;
+      zip.text = first.postalCode;
     });
   }
 

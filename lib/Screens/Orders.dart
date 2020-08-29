@@ -29,42 +29,49 @@ class _OrdersState extends State<Orders> {
         .child(user.uid)
         .child('Orders');
     dbRef.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, value) async {
-        Order newOrder = Order();
-        newOrder.deliveryDate = await value['deliverDate'];
-        newOrder.orderAmount = await value['orderAmount'];
-        newOrder.orderDate = await value['orderDate'];
-        newOrder.orderKey = await value['orderKey'];
-        newOrder.orderTime = await value['orderTime'];
-        newOrder.shopCategory = await value['shopCategory'];
-        newOrder.shopKey = await value['shopKey'];
-        newOrder.itemsName = List<String>.from(await value['itemsName']);
-        newOrder.itemsQty = List<int>.from(await value['itemsQty']);
-        newOrder.isCompleted = await value['isCompleted'];
-        final dbRef2 = FirebaseDatabase.instance
-            .reference()
-            .child(newOrder.shopCategory)
-            .child(newOrder.shopKey);
-        await dbRef2.once().then((DataSnapshot snap) async {
-          newOrder.shop = Shops();
-          newOrder.shop.address = await snap.value['address'];
-          newOrder.shop.name = await snap.value['name'];
-          newOrder.shop.contactnum = await snap.value['phoneNo'].toString();
-          newOrder.shop.desc = await snap.value['desc'];
-          newOrder.shop.imageUrl = await snap.value['imageUrl'];
-          newOrder.shop.key = newOrder.shopKey;
-        });
+      if (snapshot.value == null) {
         setState(() {
           isFetching = false;
-          print(newOrder.shop);
+          print('No orders');
         });
-        orders.add(newOrder);
-        print(newOrder.orderDate);
-      });
-      setState(() {
-        print(orders.length);
-      });
+      } else {
+        Map<dynamic, dynamic> values = snapshot.value;
+        values.forEach((key, value) async {
+          Order newOrder = Order();
+          newOrder.deliveryDate = await value['deliverDate'];
+          newOrder.orderAmount = await value['orderAmount'];
+          newOrder.orderDate = await value['orderDate'];
+          newOrder.orderKey = await value['orderKey'];
+          newOrder.orderTime = await value['orderTime'];
+          newOrder.shopCategory = await value['shopCategory'];
+          newOrder.shopKey = await value['shopKey'];
+          newOrder.itemsName = List<String>.from(await value['itemsName']);
+          newOrder.itemsQty = List<int>.from(await value['itemsQty']);
+          newOrder.isCompleted = await value['isCompleted'];
+          final dbRef2 = FirebaseDatabase.instance
+              .reference()
+              .child(newOrder.shopCategory)
+              .child(newOrder.shopKey);
+          await dbRef2.once().then((DataSnapshot snap) async {
+            newOrder.shop = Shops();
+            newOrder.shop.address = await snap.value['address'];
+            newOrder.shop.name = await snap.value['name'];
+            newOrder.shop.contactnum = await snap.value['phoneNo'].toString();
+            newOrder.shop.desc = await snap.value['desc'];
+            newOrder.shop.imageUrl = await snap.value['imageUrl'];
+            newOrder.shop.key = newOrder.shopKey;
+          });
+          setState(() {
+            isFetching = false;
+            print(newOrder.shop);
+          });
+          orders.add(newOrder);
+          print(newOrder.orderDate);
+        });
+        setState(() {
+          print(orders.length);
+        });
+      }
     });
   }
 
