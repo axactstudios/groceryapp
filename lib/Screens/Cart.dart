@@ -36,16 +36,19 @@ class _CartState extends State<Cart> {
         FirebaseDatabase.instance.reference().child('Users').child(user.uid);
     dbRef.once().then((DataSnapshot snapshot) async {
       userData.uid = await snapshot.value['uid'];
+      print(userData.uid);
       userData.phoneNo = await snapshot.value['phoneNo'];
       userData.zip = await snapshot.value['zip'];
       userData.lat = await snapshot.value['lat'];
       userData.lng = await snapshot.value['lng'];
       userData.name = await snapshot.value['name'];
       userData.address = await snapshot.value['address'];
-      setState(() {
-        print('User fetched');
-        getLocation();
-      });
+      if (this.mounted) {
+        setState(() {
+          print('User fetched');
+          getLocation();
+        });
+      }
     });
   }
 
@@ -58,10 +61,12 @@ class _CartState extends State<Cart> {
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     print(first.subAdminArea);
-    setState(() {
-      isFetchingUser = false;
-      city = first.subAdminArea;
-    });
+    if (this.mounted) {
+      setState(() {
+        isFetchingUser = false;
+        city = first.subAdminArea;
+      });
+    }
   }
 
   final dbHelper = DatabaseHelper.instance;
@@ -76,11 +81,12 @@ class _CartState extends State<Cart> {
       int price = int.parse(products[i].price);
       int cost = price * products[i].qty;
       sum = sum + cost;
-      print(sum);
     }
-    setState(() {
-      orderAmount = sum.toString();
-    });
+    if (this.mounted) {
+      setState(() {
+        orderAmount = sum.toString();
+      });
+    }
   }
 
   void getAllItems() async {
@@ -88,10 +94,12 @@ class _CartState extends State<Cart> {
     products.clear();
     allRows.forEach((row) => products.add(Products.fromMap(row)));
 
-    setState(() {
-      print(products.length);
-      getOrderAmount();
-    });
+    if (this.mounted) {
+      setState(() {
+        print(products.length);
+        getOrderAmount();
+      });
+    }
   }
 
   void updateItem({Products product}) async {
@@ -103,9 +111,11 @@ class _CartState extends State<Cart> {
         toastLength: Toast.LENGTH_SHORT,
         textColor: Colors.black,
         backgroundColor: Colors.white);
-    setState(() {
-      getAllItems();
-    });
+    if (this.mounted) {
+      setState(() {
+        getAllItems();
+      });
+    }
   }
 
   void removeItem(String name) async {
@@ -117,6 +127,7 @@ class _CartState extends State<Cart> {
   }
 
   onOrderPlaced() async {
+    print('Placing your order');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String shopKey = await prefs.getString('key');
     String shopCategory = await prefs.getString('category');
@@ -134,6 +145,27 @@ class _CartState extends State<Cart> {
     for (i = 0; i < products.length; i++) {
       itemsName.add(products[i].name);
       itemsQty.add(products[i].qty);
+      print(products[i].prodCategory);
+      print(products[i].key);
+
+      int stockQty;
+
+      final dbRef = FirebaseDatabase.instance
+          .reference()
+          .child(shopCategory)
+          .child(shopKey)
+          .child('Categories')
+          .child(products[i].prodCategory)
+          .child(products[i].key);
+      await dbRef.once().then((DataSnapshot snapshot) async {
+        stockQty = await snapshot.value['stockQty'];
+      }).then((value) {
+        print('${products[i].name}\'s quantity fetched');
+      });
+      await dbRef
+          .update({'stockQty': stockQty - products[i].qty}).then((value) {
+        print('${products[i].name} Updated');
+      });
     }
 
     FirebaseUser user = await mAuth.currentUser();

@@ -31,9 +31,11 @@ class _HomeState extends State<Home> {
 
   void getShops() {
     print('Retrieving ${categorylist[selectedcategory].name}');
-    setState(() {
-      isFetching = true;
-    });
+    if (this.mounted) {
+      setState(() {
+        isFetching = true;
+      });
+    }
     shops.clear();
     shopNames.clear();
     var dbRef = FirebaseDatabase.instance
@@ -53,10 +55,12 @@ class _HomeState extends State<Home> {
         shops.add(newShop);
         shopNames.add(value['name']);
       });
-      setState(() {
-        isFetching = false;
-        print(shops.length);
-      });
+      if (this.mounted) {
+        setState(() {
+          isFetching = false;
+          print(shops.length);
+        });
+      }
     });
   }
 

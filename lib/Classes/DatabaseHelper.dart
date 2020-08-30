@@ -14,6 +14,8 @@ class DatabaseHelper {
   static final columnPrice = 'price';
   static final columnQuantity = 'qty';
   static final columnDesc = 'desc';
+  static final columnProductKey = 'key';
+  static final columnProductCategory = 'prodCategory';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -44,7 +46,9 @@ class DatabaseHelper {
             $columnImageUrl TEXT NOT NULL,
             $columnPrice TEXT NOT NULL,
             $columnDesc TEXT NOT NULL,
-            $columnQuantity INTEGER NOT NULL
+            $columnQuantity INTEGER NOT NULL,
+            $columnProductKey TEXT NOT NULL,
+            $columnProductCategory TEXT NOT NULL
           )
           ''');
   }
@@ -61,7 +65,9 @@ class DatabaseHelper {
       'imageUrl': item.imageUrl,
       'price': item.price,
       'qty': item.qty,
-      'desc': item.desc
+      'desc': item.desc,
+      'key': item.key,
+      'prodCategory': item.prodCategory
     });
   }
 

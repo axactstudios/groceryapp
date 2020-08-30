@@ -18,9 +18,11 @@ class _OrdersState extends State<Orders> {
   bool isFetching = false;
 
   getOrders() async {
-    setState(() {
-      isFetching = true;
-    });
+    if (this.mounted) {
+      setState(() {
+        isFetching = true;
+      });
+    }
     orders.clear();
     FirebaseUser user = await mAuth.currentUser();
     final dbRef = FirebaseDatabase.instance
@@ -61,16 +63,20 @@ class _OrdersState extends State<Orders> {
             newOrder.shop.imageUrl = await snap.value['imageUrl'];
             newOrder.shop.key = newOrder.shopKey;
           });
-          setState(() {
-            isFetching = false;
-            print(newOrder.shop);
-          });
+          if (this.mounted) {
+            setState(() {
+              isFetching = false;
+              print(newOrder.shop);
+            });
+          }
           orders.add(newOrder);
           print(newOrder.orderDate);
         });
-        setState(() {
-          print(orders.length);
-        });
+        if (this.mounted) {
+          setState(() {
+            print(orders.length);
+          });
+        }
       }
     });
   }
@@ -181,14 +187,18 @@ class _OrdersState extends State<Orders> {
                                                       fontWeight:
                                                           FontWeight.w600),
                                                 ),
-                                                Text(
-                                                  item.shop.address,
-                                                  style: TextStyle(
-                                                      color: kSecondaryColor,
-                                                      fontFamily: 'Poppins',
-                                                      fontSize: pHeight * 0.015,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                Container(
+                                                  width: pWidth * 0.62,
+                                                  child: Text(
+                                                    item.shop.address,
+                                                    style: TextStyle(
+                                                        color: kSecondaryColor,
+                                                        fontFamily: 'Poppins',
+                                                        fontSize:
+                                                            pHeight * 0.015,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
                                                 ),
                                               ],
                                             ),

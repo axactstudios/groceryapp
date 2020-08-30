@@ -3,12 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/DatabaseHelper.dart';
 import 'package:groceryapp/Classes/Products.dart';
 import 'package:groceryapp/Classes/Shops.dart';
-import 'package:groceryapp/Widgets/SearchBar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,14 +32,14 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
   int productsIndex = 0;
   int length = 0;
 
-  getCartLength() async {
-    int x = await dbHelper.queryRowCount();
-    length = x;
-    setState(() {
-      print('Length Updated');
-      length;
-    });
-  }
+//  getCartLength() async {
+//    int x = await dbHelper.queryRowCount();
+//    length = x;
+//    setState(() {
+//      print('Length Updated');
+//      length;
+//    });
+//  }
 
   void getCategories() async {
     setState(() {
@@ -86,6 +84,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
         product.price = await value['price'].toString();
         product.desc = await value['desc'];
         product.imageUrl = await value['imageUrl'];
+        product.stockQty = await value['stockQty'];
         products.add(product);
       });
       setState(() {
@@ -98,7 +97,6 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
   @override
   void initState() {
     getCategories();
-    getCartLength();
   }
 
   @override
@@ -115,7 +113,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Container(
-              height: pHeight * 0.15,
+              height: pHeight * 0.2,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: kPrimaryColor,
@@ -127,7 +125,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       widget.shop.imageUrl,
-                      height: pHeight * 0.15,
+                      height: pHeight * 0.2,
                       width: pWidth * 0.3,
                       fit: BoxFit.cover,
                     ),
@@ -190,13 +188,16 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                             SizedBox(
                               width: pWidth * 0.02,
                             ),
-                            Text(
-                              widget.shop.address,
-                              style: TextStyle(
-                                  color: kSecondaryColor,
-                                  fontSize: pHeight * 0.018,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Poppins'),
+                            Container(
+                              width: pWidth * 0.5,
+                              child: Text(
+                                widget.shop.address,
+                                style: TextStyle(
+                                    color: kSecondaryColor,
+                                    fontSize: pHeight * 0.018,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Poppins'),
+                              ),
                             ),
                           ],
                         ),
@@ -383,116 +384,147 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                                                 ),
                                               ],
                                             ),
-                                            InkWell(
-                                              onTap: () async {
-                                                SharedPreferences prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                if (length == 0) {
-                                                  addToCart(item, 1);
-                                                  prefs.setString('category',
-                                                      widget.category);
-                                                  prefs.setString(
-                                                      'key', widget.shop.key);
-                                                  prefs.setString(
-                                                      'name', widget.shop.name);
-                                                } else {
-                                                  String key;
-                                                  key = prefs.getString('key');
-                                                  if (key == widget.shop.key) {
-                                                    bool inCart;
-                                                    inCart =
-                                                        await _query(item.name);
-                                                    if (inCart) {
-                                                      Fluttertoast.showToast(
-                                                          msg:
-                                                              'Already in cart',
-                                                          toastLength: Toast
-                                                              .LENGTH_SHORT,
-                                                          textColor:
-                                                              Colors.black,
-                                                          backgroundColor:
-                                                              Colors.white);
-                                                    } else {
-                                                      addToCart(item, 1);
-                                                    }
-                                                  } else {
-                                                    String name = await prefs
-                                                        .getString('name');
-                                                    Alert(
-                                                      context: context,
-                                                      type: AlertType.warning,
-                                                      title: "ATTENTION",
-                                                      desc:
-                                                          "You already have items from $name in your cart. Do you wish to remove those items and continue?",
-                                                      buttons: [
-                                                        DialogButton(
-                                                          child: Text(
-                                                            "Yes",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20),
-                                                          ),
-                                                          onPressed: () async {
-                                                            emptyCart();
-                                                            prefs.setString(
-                                                                'key',
-                                                                widget
-                                                                    .shop.key);
-                                                            prefs.setString(
-                                                                'category',
-                                                                widget
-                                                                    .category);
-                                                            prefs.setString(
-                                                                'name',
-                                                                widget
-                                                                    .shop.name);
-                                                            await addToCart(
-                                                                item, 1);
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          color: Colors.green,
-                                                        ),
-                                                        DialogButton(
-                                                          child: Text(
-                                                            "No",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20),
-                                                          ),
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                          color: Colors.red,
-                                                        )
-                                                      ],
-                                                    ).show();
-                                                  }
-                                                }
-                                              },
-                                              child: Container(
-                                                height: pHeight * 0.04,
-                                                width: pWidth * 0.574,
-                                                decoration: BoxDecoration(
-                                                  color: kSecondaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    'Add To Cart',
+                                            item.stockQty == 0
+                                                ? Text(
+                                                    'Out of Stock',
+                                                    textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        color: Colors.white,
+                                                        color: Colors.red,
                                                         fontSize:
-                                                            pHeight * 0.025),
+                                                            pHeight * 0.025,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily: 'Poppins'),
+                                                  )
+                                                : InkWell(
+                                                    onTap: () async {
+                                                      SharedPreferences prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+                                                      if (length == 0) {
+                                                        addToCart(item, 1);
+                                                        prefs.setString(
+                                                            'category',
+                                                            widget.category);
+                                                        prefs.setString('key',
+                                                            widget.shop.key);
+                                                        prefs.setString('name',
+                                                            widget.shop.name);
+                                                      } else {
+                                                        String key;
+                                                        key = prefs
+                                                            .getString('key');
+                                                        if (key ==
+                                                            widget.shop.key) {
+                                                          bool inCart;
+                                                          inCart = await _query(
+                                                              item.name);
+                                                          if (inCart) {
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    'Already in cart',
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                textColor:
+                                                                    Colors
+                                                                        .black,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white);
+                                                          } else {
+                                                            addToCart(item, 1);
+                                                          }
+                                                        } else {
+                                                          String name =
+                                                              await prefs
+                                                                  .getString(
+                                                                      'name');
+                                                          Alert(
+                                                            context: context,
+                                                            type: AlertType
+                                                                .warning,
+                                                            title: "ATTENTION",
+                                                            desc:
+                                                                "You already have items from $name in your cart. Do you wish to remove those items and continue?",
+                                                            buttons: [
+                                                              DialogButton(
+                                                                child: Text(
+                                                                  "Yes",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                                onPressed:
+                                                                    () async {
+                                                                  emptyCart();
+                                                                  prefs.setString(
+                                                                      'key',
+                                                                      widget
+                                                                          .shop
+                                                                          .key);
+                                                                  prefs.setString(
+                                                                      'category',
+                                                                      widget
+                                                                          .category);
+                                                                  prefs.setString(
+                                                                      'name',
+                                                                      widget
+                                                                          .shop
+                                                                          .name);
+                                                                  await addToCart(
+                                                                      item, 1);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                color: Colors
+                                                                    .green,
+                                                              ),
+                                                              DialogButton(
+                                                                child: Text(
+                                                                  "No",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context),
+                                                                color:
+                                                                    Colors.red,
+                                                              )
+                                                            ],
+                                                          ).show();
+                                                        }
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      height: pHeight * 0.04,
+                                                      width: pWidth * 0.574,
+                                                      decoration: BoxDecoration(
+                                                        color: kSecondaryColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Add To Cart',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Poppins',
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  pHeight *
+                                                                      0.025),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
                                           ],
                                         ),
                                       ),
@@ -516,7 +548,9 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
       DatabaseHelper.columnImageUrl: product.imageUrl,
       DatabaseHelper.columnPrice: product.price,
       DatabaseHelper.columnQuantity: qty,
-      DatabaseHelper.columnDesc: product.desc
+      DatabaseHelper.columnDesc: product.desc,
+      DatabaseHelper.columnProductKey: product.key,
+      DatabaseHelper.columnProductCategory: categories[productsIndex]
     };
     Products item = Products.fromMap(row);
     final id = await dbHelper.insert(item);
@@ -525,7 +559,6 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
         toastLength: Toast.LENGTH_SHORT,
         textColor: Colors.black,
         backgroundColor: Colors.white);
-    getCartLength();
   }
 
   Future<bool> _query(String name) async {
@@ -542,6 +575,5 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
   void emptyCart() async {
     final rowsDeleted = await dbHelper.empty();
     print('Cart empty');
-    getCartLength();
   }
 }

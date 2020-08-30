@@ -24,18 +24,18 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
       backgroundColor: kPrimaryColor,
       body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 50,
-          ),
-          InkWell(
-            onTap: () async {
-              await widget.state.setState(() {
-                print('sfs');
-              });
-              await Navigator.pop(context);
-            },
-            child: Text('Back'),
-          ),
+//          SizedBox(
+//            height: 50,
+//          ),
+//          InkWell(
+//            onTap: () async {
+//              await widget.state.setState(() {
+//                print('sfs');
+//              });
+//              await Navigator.pop(context);
+//            },
+//            child: Text('Back'),
+//          ),
           ClipRRect(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(15),
@@ -76,18 +76,21 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                 Icon(
                   Icons.location_on,
                   color: kSecondaryColor,
-                  size: pHeight * 0.035,
+                  size: pHeight * 0.03,
                 ),
                 SizedBox(
                   width: pWidth * 0.02,
                 ),
-                Text(
-                  widget.shop.address,
-                  style: TextStyle(
-                      color: kSecondaryColor,
-                      fontFamily: 'Poppins',
-                      fontSize: pHeight * 0.025,
-                      fontWeight: FontWeight.w600),
+                Container(
+                  width: pWidth * 0.8,
+                  child: Text(
+                    widget.shop.address,
+                    style: TextStyle(
+                        color: kSecondaryColor,
+                        fontFamily: 'Poppins',
+                        fontSize: pHeight * 0.022,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
               ],
             ),
@@ -102,7 +105,7 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                 Icon(
                   Icons.phone_in_talk,
                   color: kSecondaryColor,
-                  size: pHeight * 0.035,
+                  size: pHeight * 0.03,
                 ),
                 SizedBox(
                   width: pWidth * 0.02,
@@ -112,7 +115,7 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                   style: TextStyle(
                       color: kSecondaryColor,
                       fontFamily: 'Poppins',
-                      fontSize: pHeight * 0.025,
+                      fontSize: pHeight * 0.022,
                       fontWeight: FontWeight.w600),
                 ),
               ],
