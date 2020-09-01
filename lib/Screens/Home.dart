@@ -68,6 +68,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final pHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[

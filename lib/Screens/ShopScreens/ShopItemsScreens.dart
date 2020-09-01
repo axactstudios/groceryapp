@@ -147,7 +147,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                               widget.shop.name,
                               style: TextStyle(
                                   color: kSecondaryColor,
-                                  fontSize: pHeight * 0.025,
+                                  fontSize: pHeight * 0.020,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Poppins'),
                             ),
@@ -173,7 +173,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                               widget.shop.contactnum,
                               style: TextStyle(
                                   color: kSecondaryColor,
-                                  fontSize: pHeight * 0.018,
+                                  fontSize: pHeight * 0.015,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Poppins'),
                             ),
@@ -194,7 +194,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                                 widget.shop.address,
                                 style: TextStyle(
                                     color: kSecondaryColor,
-                                    fontSize: pHeight * 0.018,
+                                    fontSize: pHeight * 0.015,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Poppins'),
                               ),
@@ -256,7 +256,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                                                   : kSecondaryColor
                                                       .withOpacity(0.5),
                                               fontFamily: 'Poppins',
-                                              fontSize: pHeight * 0.025,
+                                              fontSize: pHeight * 0.023,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
