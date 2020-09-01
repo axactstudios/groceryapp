@@ -8,6 +8,7 @@ import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/CustomIcons.dart';
 import 'package:groceryapp/Screens/NavBar.dart';
 import 'package:groceryapp/Screens/RegistrationPage.dart';
+import'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -31,23 +32,26 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: pHeight * 0.06),
+                margin: EdgeInsets.only(top: pHeight * 0.08),
                 child: Text(
                   'Logo',
-                  style: TextStyle(
-                      fontSize: pHeight * 0.045, fontFamily: 'Poppins'),
+                  style:GoogleFonts.openSans(textStyle:TextStyle(fontSize: 0.045*pHeight,fontWeight:FontWeight.bold))
                 ),
               ),
               SizedBox(
-                height: pHeight * 0.042,
+                height: pHeight * 0.03,
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Image.asset('images/onboarding.png'),
+                child: Image(image:AssetImage('images/onboarding.png',),height: 0.22*pHeight,),
               ),
-              SizedBox(
-                height: pHeight * 0.01,
-              ),
+//              SizedBox(
+//                height: pHeight * 0.001,
+//              ),
+              Text('Onboarding',style:GoogleFonts.openSans(textStyle:TextStyle(fontSize: 0.035*pHeight))),
+              SizedBox(height:0.01*pHeight),
+              Image(image:AssetImage('images/Repeat Grid 2.png')),
+              SizedBox(height:0.01*pHeight),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -69,6 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                             top: 36,
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
                                 flex: 6,
@@ -85,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                                     filled: true,
                                     fillColor: kFormColor,
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     hintText: 'Enter Mobile Number',
                                   ),
@@ -94,22 +100,30 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Expanded(
                                   flex: 1,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _onVerifyCode();
-                                    },
-                                    child: Icon(
-                                      Icons.send,
-                                      color: Colors.white,
+
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+
+                                      onTap: () {
+                                        _onVerifyCode();
+                                      },
+                                      child: Icon(
+                                        Icons.send,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ))
+                                  ),
+
+                              ),
+
                             ],
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
                             left: 32.0,
-                            right: 32,
+                            right: 75,
                             top: 15,
                           ),
                           child: TextFormField(
@@ -125,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                               filled: true,
                               fillColor: kFormColor,
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                               hintText: 'Enter OTP',
                             ),

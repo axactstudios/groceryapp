@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groceryapp/Screens/LoginScreen.dart';
 import 'package:groceryapp/Screens/NavBar.dart';
+import 'package:groceryapp/Screens/RegistrationPage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -29,7 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
             builder: (context) => HomePage(),
           ),
         );
-      }
+  }
+
     });
   }
 

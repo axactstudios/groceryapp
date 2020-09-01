@@ -20,6 +20,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return GFSearchBar(
+
       searchList: widget.shopNames,
       searchQueryBuilder: (query, list) {
         return list

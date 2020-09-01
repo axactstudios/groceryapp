@@ -94,7 +94,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: pHeight * 0.05,
+                  height: pHeight * 0.07,
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(pHeight * 0.15),
@@ -212,12 +212,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none),
-                              icon: Icon(
+                              prefixIcon: Icon(
                                 Icons.mail,
                                 size: pHeight * 0.03,
                                 color: Color(0xFF11263C),
                               ),
-                              hintText: 'Address',
+                              hintText: ' Delivery Address',
                               hintStyle: TextStyle(
                                   fontFamily: 'Poppins',
                                   color: Color(0xFF11263C),
