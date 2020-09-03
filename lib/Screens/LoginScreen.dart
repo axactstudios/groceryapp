@@ -8,7 +8,7 @@ import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/CustomIcons.dart';
 import 'package:groceryapp/Screens/NavBar.dart';
 import 'package:groceryapp/Screens/RegistrationPage.dart';
-import'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -33,25 +33,33 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: pHeight * 0.08),
-                child: Text(
-                  'Logo',
-                  style:GoogleFonts.openSans(textStyle:TextStyle(fontSize: 0.045*pHeight,fontWeight:FontWeight.bold))
-                ),
+                child: Text('Logo',
+                    style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            fontSize: 0.045 * pHeight,
+                            fontWeight: FontWeight.bold))),
               ),
               SizedBox(
                 height: pHeight * 0.03,
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Image(image:AssetImage('images/onboarding.png',),height: 0.22*pHeight,),
+                child: Image(
+                  image: AssetImage(
+                    'images/onboarding.png',
+                  ),
+                  height: 0.22 * pHeight,
+                ),
               ),
 //              SizedBox(
 //                height: pHeight * 0.001,
 //              ),
-              Text('Onboarding',style:GoogleFonts.openSans(textStyle:TextStyle(fontSize: 0.035*pHeight))),
-              SizedBox(height:0.01*pHeight),
-              Image(image:AssetImage('images/Repeat Grid 2.png')),
-              SizedBox(height:0.01*pHeight),
+              Text('Onboarding',
+                  style: GoogleFonts.openSans(
+                      textStyle: TextStyle(fontSize: 0.035 * pHeight))),
+              SizedBox(height: 0.01 * pHeight),
+              Image(image: AssetImage('images/Repeat Grid 2.png')),
+              SizedBox(height: 0.01 * pHeight),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -99,24 +107,20 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               Expanded(
-                                  flex: 1,
-
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: InkWell(
-
-                                      onTap: () {
-                                        _onVerifyCode();
-                                      },
-                                      child: Icon(
-                                        Icons.send,
-                                        color: Colors.white,
-                                      ),
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _onVerifyCode();
+                                    },
+                                    child: Icon(
+                                      Icons.send,
+                                      color: Colors.white,
                                     ),
                                   ),
-
+                                ),
                               ),
-
                             ],
                           ),
                         ),
@@ -377,7 +381,7 @@ class _LoginPageState extends State<LoginPage> {
             .child(value.user.uid);
         dbRef.once().then((DataSnapshot snapshot) async {
           String name = await snapshot.value['name'];
-          if (name == null) {
+          if (snapshot == null) {
             Navigator.pushReplacement(
               context,
               CupertinoPageRoute(

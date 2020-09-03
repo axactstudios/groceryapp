@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/User.dart';
 
@@ -62,11 +63,15 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
           leading: CircleAvatar(
             backgroundImage: AssetImage("images/User.jpg"),
           ),
-          title: Text("Hello,"),
+          title: Text(
+            "Good morning",
+            style: GoogleFonts.openSans(
+                fontSize: MediaQuery.of(context).size.height * 0.015),
+          ),
           subtitle: userData.name == null
               ? Text(
                   'Anonymous',
-                  style: TextStyle(
+                  style: GoogleFonts.openSans(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),

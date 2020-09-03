@@ -104,7 +104,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFf0f5f9),
       body: Column(
         children: <Widget>[
           SizedBox(
@@ -161,6 +161,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                           ],
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Icon(
                               Icons.phone_in_talk,
@@ -180,6 +181,7 @@ class _ShopItemsScreenState extends State<ShopItemsScreen> {
                           ],
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Icon(
                               Icons.location_on,

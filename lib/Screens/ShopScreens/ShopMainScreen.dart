@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/Shops.dart';
 import 'package:groceryapp/Screens/ShopScreens/ShopItemsScreens.dart';
@@ -57,9 +58,8 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
               children: <Widget>[
                 Text(
                   widget.shop.name,
-                  style: TextStyle(
+                  style: GoogleFonts.openSans(
                       color: kSecondaryColor,
-                      fontFamily: 'Poppins',
                       fontSize: pHeight * 0.035,
                       fontWeight: FontWeight.bold),
                 ),
@@ -72,6 +72,7 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Icon(
                   Icons.location_on,
@@ -85,11 +86,10 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                   width: pWidth * 0.8,
                   child: Text(
                     widget.shop.address,
-                    style: TextStyle(
-                        color: kSecondaryColor,
-                        fontFamily: 'Poppins',
-                        fontSize: pHeight * 0.022,
-                        fontWeight: FontWeight.w600),
+                    style: GoogleFonts.openSans(
+                      color: kSecondaryColor,
+                      fontSize: pHeight * 0.022,
+                    ),
                   ),
                 ),
               ],
@@ -112,11 +112,10 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                 ),
                 Text(
                   widget.shop.contactnum,
-                  style: TextStyle(
-                      color: kSecondaryColor,
-                      fontFamily: 'Poppins',
-                      fontSize: pHeight * 0.022,
-                      fontWeight: FontWeight.w600),
+                  style: GoogleFonts.openSans(
+                    color: kSecondaryColor,
+                    fontSize: pHeight * 0.022,
+                  ),
                 ),
               ],
             ),
@@ -130,9 +129,8 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
               children: <Widget>[
                 Text(
                   widget.shop.desc,
-                  style: TextStyle(
+                  style: GoogleFonts.openSans(
                     color: kSecondaryColor,
-                    fontFamily: 'Poppins',
                     fontSize: pHeight * 0.018,
                   ),
                 ),
@@ -167,12 +165,13 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
+                    Spacer(
+                      flex: 3,
+                    ),
                     Text(
                       'Shop Now',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: pHeight * 0.025),
+                      style: GoogleFonts.openSans(
+                          color: Colors.white, fontSize: pHeight * 0.025),
                     ),
                     SizedBox(
                       width: pWidth * 0.04,
@@ -181,8 +180,8 @@ class _ShopMainScreenState extends State<ShopMainScreen> {
                       Icons.arrow_forward_ios,
                       color: kAccentColor,
                     ),
-                    SizedBox(
-                      width: pWidth * 0.02,
+                    Spacer(
+                      flex: 1,
                     ),
                   ],
                 ),

@@ -1,6 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groceryapp/Classes/Categories.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/Shops.dart';
@@ -68,7 +72,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final pHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-
+      backgroundColor: Color(0xFFf0f5f9),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
@@ -76,14 +80,18 @@ class _HomeState extends State<Home> {
             height: pHeight * 0.02,
           ),
           UserGreetingBar(),
-          SearchBar(shops, shopNames, this),
+          Container(
+              margin: EdgeInsets.all(10),
+              // color: Colors.blue,
+              child: SearchBar(shops, shopNames, this)),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(26, 20, 0, 0),
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Categories",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  style: GoogleFonts.openSans(
+                      fontWeight: FontWeight.bold, fontSize: 22),
                 )),
           ),
           Container(
@@ -109,7 +117,7 @@ class _HomeState extends State<Home> {
                             child: Container(
                                 color: selectedcategory == categoryindex
                                     ? Color(0xffFFD6BC)
-                                    : Color(0xffF0F5F9),
+                                    : Color(0xffcff9e1),
                                 height: 70,
                                 width: 70,
                                 child: Padding(
@@ -137,10 +145,8 @@ class _HomeState extends State<Home> {
                   ? Center(
                       child: Text(
                         'No shops to display',
-                        style: TextStyle(
-                            color: kSecondaryColor,
-                            fontFamily: 'Poppins',
-                            fontSize: pHeight * 0.03),
+                        style: GoogleFonts.openSans(
+                            color: kSecondaryColor, fontSize: pHeight * 0.03),
                       ),
                     )
                   : Expanded(
@@ -164,6 +170,18 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(25),
                                 child: Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                          offset: Offset.lerp(
+                                              Offset.fromDirection(10),
+                                              Offset.fromDirection(10),
+                                              -10),
+                                          color: Colors.grey[300],
+                                          blurRadius: 10,
+                                          spreadRadius: 10)
+                                    ],
+                                  ),
                                   height: 200,
                                   width: MediaQuery.of(context).size.width,
                                   child: ClipRRect(
@@ -185,11 +203,12 @@ class _HomeState extends State<Home> {
                                     color: Color(0xffF0F5F9),
                                     child: ListTile(
                                         title: Text(item.name,
-                                            style: TextStyle(
+                                            style: GoogleFonts.openSans(
                                                 fontSize: 20,
+                                                fontWeight: FontWeight.w600,
                                                 color: Colors.blueGrey[600])),
                                         subtitle: Text("📍" + item.address,
-                                            style: TextStyle(
+                                            style: GoogleFonts.openSans(
                                                 color: Colors.blueGrey[600])),
                                         trailing: Icon(
                                           (Icons.chevron_right),
