@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/User.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -137,28 +138,33 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 19.5),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: pWidth * 0.144,
-                  ),
-                  Icon(
-                    Icons.info_outline,
-                    size: 40,
-                  ),
-                  SizedBox(
-                    width: pWidth * 0.0853,
-                  ),
-                  Text(
-                    'About',
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  )
-                ],
+            InkWell(
+              onTap: () {
+                _launchURL('https://www.google.com/');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 19.5),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: pWidth * 0.144,
+                    ),
+                    Icon(
+                      Icons.info_outline,
+                      size: 40,
+                    ),
+                    SizedBox(
+                      width: pWidth * 0.0853,
+                    ),
+                    Text(
+                      'About',
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -170,28 +176,33 @@ class _ProfileState extends State<Profile> {
                 thickness: 0.5,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 19.5),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: pWidth * 0.144,
-                  ),
-                  Icon(
-                    Icons.warning,
-                    size: 40,
-                  ),
-                  SizedBox(
-                    width: pWidth * 0.0853,
-                  ),
-                  Text(
-                    'Send Feedback',
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  )
-                ],
+            InkWell(
+              onTap: () {
+                _launchURL('https://www.google.com/');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 19.5),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: pWidth * 0.144,
+                    ),
+                    Icon(
+                      Icons.warning,
+                      size: 40,
+                    ),
+                    SizedBox(
+                      width: pWidth * 0.0853,
+                    ),
+                    Text(
+                      'Send Feedback',
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -245,5 +256,14 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
+  }
+
+  _launchURL(String launchUrl) async {
+    String url = launchUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
