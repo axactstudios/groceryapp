@@ -57,8 +57,7 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
+    return Container(
       child: ListTile(
           leading: CircleAvatar(
             backgroundImage: AssetImage("images/User.jpg"),
@@ -95,25 +94,22 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
                   color: Color(0xffF26016),
                 )
               : Container(
-                  width: MediaQuery.of(context).size.width * 0.19,
-                  child: Row(
+                  width: 100,
+                  height: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
+                      Icon(
+                        Icons.location_on,
+                        size: MediaQuery.of(context).size.width * 0.05,
+                        color: Color(0xffF26016),
+                      ),
                       Text(
                         city,
                         style: TextStyle(
                             color: kAccentColor,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          print("Location Pressed");
-                        },
-                        icon: Icon(
-                          Icons.location_on,
-                          size: 30,
-                        ),
-                        color: Color(0xffF26016),
                       ),
                     ],
                   ),

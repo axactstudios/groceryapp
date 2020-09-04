@@ -3,6 +3,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/User.dart';
 import 'package:groceryapp/Screens/LoginScreen.dart';
@@ -72,9 +78,8 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.only(left: 24.0, top: 8),
               child: Text(
                 'Profile',
-                style: TextStyle(
+                style: GoogleFonts.openSans(
                     color: kSecondaryColor,
-                    fontFamily: 'Poppins',
                     fontSize: pHeight * 0.035,
                     fontWeight: FontWeight.bold),
               ),
@@ -95,7 +100,7 @@ class _ProfileState extends State<Profile> {
                 ? Container(
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -110,20 +115,18 @@ class _ProfileState extends State<Profile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(userData.name,
-                                  style: TextStyle(
+                                  style: GoogleFonts.openSans(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
-                                    fontFamily: 'Poppins',
                                   )),
                               Text('Delivery Address',
-                                  style: TextStyle(
+                                  style: GoogleFonts.openSans(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     color: kSecondaryColor,
-                                    fontFamily: 'Poppins',
                                   )),
                               Container(
-                                  width: pWidth / 1.4,
+                                  width: pWidth * 0.7,
                                   child: Text(userData.address)),
                               Text('Pin- ${userData.zip}'),
                               Text('Phone- ${userData.phoneNo}')
@@ -145,26 +148,25 @@ class _ProfileState extends State<Profile> {
                 _launchURL('https://www.google.com/');
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 19.5),
+                padding: EdgeInsets.symmetric(vertical: pHeight * 0.01),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: pWidth * 0.144,
-                    ),
+                    Spacer(),
                     Icon(
                       Icons.info_outline,
                       size: 40,
                     ),
-                    SizedBox(
-                      width: pWidth * 0.0853,
-                    ),
+                    Spacer(),
                     Text(
                       'About',
-                      style: TextStyle(
+                      style: GoogleFonts.openSans(
                           fontSize: 25,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
-                    )
+                    ),
+                    Spacer(
+                      flex: 3,
+                    ),
                   ],
                 ),
               ),
@@ -183,26 +185,25 @@ class _ProfileState extends State<Profile> {
                 _launchURL('https://www.google.com/');
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 19.5),
+                padding: EdgeInsets.symmetric(vertical: pHeight * 0.01),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: pWidth * 0.144,
-                    ),
+                    Spacer(),
                     Icon(
                       Icons.warning,
                       size: 40,
                     ),
-                    SizedBox(
-                      width: pWidth * 0.0853,
-                    ),
+                    Spacer(),
                     Text(
                       'Send Feedback',
-                      style: TextStyle(
+                      style: GoogleFonts.openSans(
                           fontSize: 25,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
-                    )
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
                   ],
                 ),
               ),
@@ -222,26 +223,23 @@ class _ProfileState extends State<Profile> {
                 pushNewScreen(context, screen: LoginPage(), withNavBar: false);
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 19.5),
+                padding: EdgeInsets.symmetric(vertical: pHeight * 0.01),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: pWidth * 0.144,
-                    ),
+                    Spacer(),
                     Icon(
                       Icons.exit_to_app,
                       size: 40,
                     ),
-                    SizedBox(
-                      width: pWidth * 0.0853,
-                    ),
+                    Spacer(),
                     Text(
                       'Log Out',
-                      style: TextStyle(
+                      style: GoogleFonts.openSans(
                           fontSize: 25,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
-                    )
+                    ),
+                    Spacer(flex: 3),
                   ],
                 ),
               ),

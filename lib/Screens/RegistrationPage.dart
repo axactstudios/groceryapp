@@ -5,6 +5,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gps/gps.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Screens/NavBar.dart';
@@ -94,7 +99,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: pHeight * 0.07,
+                  height: pHeight * 0.05,
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(pHeight * 0.15),
@@ -110,7 +115,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                 ),
                 SizedBox(
-                  height: pHeight * 0.02,
+                  height: pHeight * 0.04,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -140,10 +145,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 color: Color(0xFF11263C),
                               ),
                               hintText: 'Name',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
+                              hintStyle: GoogleFonts.openSans(
                                   color: Color(0xFF11263C),
-                                  fontSize: pHeight * 0.025),
+                                  fontSize: pHeight * 0.02),
                             ),
                           ),
                         ),
@@ -155,9 +159,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             color: Color(0xFFC8CDD2),
                           ),
                         ),
-                        SizedBox(
-                          height: pHeight * 0.008,
-                        ),
+                        // SizedBox(
+                        //   height: pHeight * 0.008,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: TextFormField(
@@ -178,10 +182,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 color: Color(0xFF11263C),
                               ),
                               hintText: 'Mobile',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
+                              hintStyle: GoogleFonts.openSans(
                                   color: Color(0xFF11263C),
-                                  fontSize: pHeight * 0.025),
+                                  fontSize: pHeight * 0.02),
                             ),
                             keyboardType: TextInputType.phone,
                           ),
@@ -194,9 +197,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             color: Color(0xFFC8CDD2),
                           ),
                         ),
-                        SizedBox(
-                          height: pHeight * 0.008,
-                        ),
+                        // SizedBox(
+                        //   height: pHeight * 0.008,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: TextFormField(
@@ -208,7 +211,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 return null;
                               }
                             },
-                            maxLines: 4,
+                            maxLines: 2,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none),
@@ -218,10 +221,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 color: Color(0xFF11263C),
                               ),
                               hintText: ' Delivery Address',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
+                              hintStyle: GoogleFonts.openSans(
                                   color: Color(0xFF11263C),
-                                  fontSize: pHeight * 0.025),
+                                  fontSize: pHeight * 0.02),
                             ),
                           ),
                         ),
@@ -233,9 +235,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             color: Color(0xFFC8CDD2),
                           ),
                         ),
-                        SizedBox(
-                          height: pHeight * 0.008,
-                        ),
+                        // SizedBox(
+                        //   height: pHeight * 0.008,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: TextFormField(
@@ -256,10 +258,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 color: Color(0xFF11263C),
                               ),
                               hintText: 'PIN Code',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
+                              hintStyle: GoogleFonts.openSans(
                                   color: Color(0xFF11263C),
-                                  fontSize: pHeight * 0.025),
+                                  fontSize: pHeight * 0.02),
                             ),
                             keyboardType: TextInputType.phone,
                           ),
@@ -272,9 +273,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             color: Color(0xFFC8CDD2),
                           ),
                         ),
-                        SizedBox(
-                          height: pHeight * 0.008,
-                        ),
+                        // SizedBox(
+                        //   height: pHeight * 0.008,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Row(
@@ -289,9 +290,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ),
                               Text(
                                 'Delivery Location',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: pHeight * 0.025,
+                                style: GoogleFonts.openSans(
+                                  fontSize: pHeight * 0.02,
                                   color: Color(0xFF11263C),
                                 ),
                               ),
@@ -315,7 +315,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               bottomRight: Radius.circular(6),
                             ),
                           ),
-                          height: pHeight * 0.18,
+                          height: pHeight * 0.2,
                           child: Map(
                             controller: controller,
                           ),

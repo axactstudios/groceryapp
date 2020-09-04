@@ -23,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final pHeight = MediaQuery.of(context).size.height;
+    final pWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kPrimaryColor,
@@ -74,85 +76,99 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
+                        Spacer(),
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: 32.0,
-                            right: 32,
-                            top: 36,
+                          padding: EdgeInsets.only(
+                            left: pWidth * 0.1,
+                            right: pWidth * 0.1,
+                          ),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.length < 10) {
+                                return 'Invalid phone number';
+                              } else {
+                                return null;
+                              }
+                            },
+                            controller: phone,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: kFormColor,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              hintText: 'Enter Mobile Number',
+                            ),
+                            keyboardType: TextInputType.phone,
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: pWidth * 0.1,
+                            right: pWidth * 0.1,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                flex: 6,
+                                flex: 8,
                                 child: TextFormField(
                                   validator: (value) {
-                                    if (value.length < 10) {
-                                      return 'Invalid phone number';
+                                    if (value.length < 6) {
+                                      return 'Invalid OTP';
                                     } else {
                                       return null;
                                     }
                                   },
-                                  controller: phone,
+                                  controller: otp,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: kFormColor,
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    hintText: 'Enter Mobile Number',
+                                    hintText: 'Enter OTP',
                                   ),
-                                  keyboardType: TextInputType.phone,
+                                  keyboardType: TextInputType.number,
                                 ),
                               ),
                               Expanded(
                                 flex: 1,
+                                child: Container(),
+                              ),
+                              Expanded(
+                                flex: 3,
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: InkWell(
-                                    onTap: () {
-                                      _onVerifyCode();
-                                    },
-                                    child: Icon(
-                                      Icons.send,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                      onTap: () {
+                                        _onVerifyCode();
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: kFormColor,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.all(pWidth * 0.03),
+                                            child: Text(
+                                              'Get OTP',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.openSans(),
+                                            ),
+                                          ))),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        Spacer(),
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: 32.0,
-                            right: 75,
-                            top: 15,
-                          ),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value.length < 6) {
-                                return 'Invalid OTP';
-                              } else {
-                                return null;
-                              }
-                            },
-                            controller: otp,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: kFormColor,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              hintText: 'Enter OTP',
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20, left: 90, right: 90),
+                          padding: EdgeInsets.only(
+                              left: pWidth * 0.2, right: pWidth * 0.2),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[

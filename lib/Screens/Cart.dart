@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/DatabaseHelper.dart';
 import 'package:groceryapp/Classes/Products.dart';
@@ -36,13 +37,15 @@ class _CartState extends State<Cart> {
         FirebaseDatabase.instance.reference().child('Users').child(user.uid);
     dbRef.once().then((DataSnapshot snapshot) async {
       userData.uid = await snapshot.value['uid'];
-      print(userData.uid);
+      // print(userData.uid);
+
       userData.phoneNo = await snapshot.value['phoneNo'];
       userData.zip = await snapshot.value['zip'];
       userData.lat = await snapshot.value['lat'];
       userData.lng = await snapshot.value['lng'];
       userData.name = await snapshot.value['name'];
       userData.address = await snapshot.value['address'];
+
       if (this.mounted) {
         setState(() {
           print('User fetched');
@@ -96,7 +99,7 @@ class _CartState extends State<Cart> {
 
     if (this.mounted) {
       setState(() {
-        print(products.length);
+        // print(products.length);
         getOrderAmount();
       });
     }
@@ -149,7 +152,7 @@ class _CartState extends State<Cart> {
       print(products[i].key);
 
       int stockQty;
-
+      print(shopKey);
       final dbRef = FirebaseDatabase.instance
           .reference()
           .child(shopCategory)
@@ -158,6 +161,10 @@ class _CartState extends State<Cart> {
           .child(products[i].prodCategory)
           .child(products[i].key);
       await dbRef.once().then((DataSnapshot snapshot) async {
+        if (snapshot.value == null)
+          print('===============${snapshot.value}');
+        else
+          print('===============');
         stockQty = await snapshot.value['stockQty'];
       }).then((value) {
         print('${products[i].name}\'s quantity fetched');
@@ -166,6 +173,7 @@ class _CartState extends State<Cart> {
           .update({'stockQty': stockQty - products[i].qty}).then((value) {
         print('${products[i].name} Updated');
       });
+      await print('Order Placed');
     }
 
     FirebaseUser user = await mAuth.currentUser();
@@ -238,12 +246,15 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    double pHeight = MediaQuery.of(context).size.height;
+    double pWidth = MediaQuery.of(context).size.width;
     getAllItems();
     return Scaffold(
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 40.0, top: 40.0, right: 40.0),
+            padding: EdgeInsets.only(
+                left: pWidth * 0.01, top: 40.0, right: pWidth * 0.01),
             child: Column(
               children: <Widget>[
                 isFetchingUser
@@ -274,11 +285,10 @@ class _CartState extends State<Cart> {
                                 children: <Widget>[
                                   Text(
                                     userData.name,
-                                    style: TextStyle(
+                                    style: GoogleFonts.openSans(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 27.5,
+                                      fontSize: 25,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                   SizedBox(
@@ -286,11 +296,10 @@ class _CartState extends State<Cart> {
                                   ),
                                   Text(
                                     'Delivery Address',
-                                    style: TextStyle(
-                                      fontSize: 19,
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                   SizedBox(
@@ -298,11 +307,10 @@ class _CartState extends State<Cart> {
                                   ),
                                   Text(
                                     userData.address,
-                                    style: TextStyle(
+                                    style: GoogleFonts.openSans(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                   SizedBox(
@@ -310,20 +318,18 @@ class _CartState extends State<Cart> {
                                   ),
                                   Text(
                                     'Pin : ${userData.zip}',
-                                    style: TextStyle(
+                                    style: GoogleFonts.openSans(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                   Text(
                                     'No : ${userData.phoneNo}',
-                                    style: TextStyle(
+                                    style: GoogleFonts.openSans(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                 ],
@@ -342,16 +348,16 @@ class _CartState extends State<Cart> {
                                       ),
                                       Text(
                                         city,
-                                        style: TextStyle(
+                                        style: GoogleFonts.openSans(
                                           fontSize: 15,
                                           color: kSecondaryColor,
-                                          fontFamily: 'Poppins',
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ],
                                   ),
                                   SizedBox(
-                                    height: 70,
+                                    height: pHeight * 0.045,
                                   ),
                                   Column(
                                     children: <Widget>[
@@ -361,10 +367,9 @@ class _CartState extends State<Cart> {
                                       ),
                                       Text(
                                         'Change',
-                                        style: TextStyle(
+                                        style: GoogleFonts.openSans(
                                           fontSize: 15,
                                           color: kSecondaryColor,
-                                          fontFamily: 'Poppins',
                                         ),
                                       ),
                                     ],
@@ -387,36 +392,33 @@ class _CartState extends State<Cart> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: 10.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               'Total = Rs.',
-                              style: TextStyle(
+                              style: GoogleFonts.openSans(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
                                 color: kSecondaryColor,
-                                fontFamily: 'Poppins',
                               ),
                             ),
                             orderAmount == null
                                 ? Text(
                                     '0.0',
-                                    style: TextStyle(
+                                    style: GoogleFonts.openSans(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   )
                                 : Text(
                                     orderAmount,
-                                    style: TextStyle(
+                                    style: GoogleFonts.openSans(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: kSecondaryColor,
-                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                           ],
@@ -433,11 +435,10 @@ class _CartState extends State<Cart> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               'Proceed to Pay',
-                              style: TextStyle(
+                              style: GoogleFonts.openSans(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
-                                fontFamily: 'Poppins',
                               ),
                             ),
                           ),
@@ -449,43 +450,7 @@ class _CartState extends State<Cart> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
               ],
-            ),
-          ),
-          Container(
-            color: Colors.grey[300],
-            child: Padding(
-              padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(
-                          Icons.sort,
-                          size: 35,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Icon(
-                          Icons.format_line_spacing,
-                          size: 35,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
           products.length == 0
@@ -493,8 +458,7 @@ class _CartState extends State<Cart> {
                   child: Center(
                     child: Text(
                       'No items in the cart',
-                      style: TextStyle(
-                          fontFamily: 'Poppins', color: kSecondaryColor),
+                      style: GoogleFonts.openSans(color: kSecondaryColor),
                     ),
                   ),
                 )
@@ -513,8 +477,8 @@ class _CartState extends State<Cart> {
                             margin: EdgeInsets.symmetric(vertical: 5.0),
                             child: Container(
                               padding: EdgeInsets.only(
-                                  left: 40.0,
-                                  right: 40.0,
+                                  left: 10.0,
+                                  right: 10.0,
                                   top: 5.0,
                                   bottom: 5.0),
                               width: double.infinity,
@@ -543,14 +507,14 @@ class _CartState extends State<Cart> {
                                       children: <Widget>[
                                         Text(
                                           item.name,
-                                          style: TextStyle(
+                                          style: GoogleFonts.openSans(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w300,
                                           ),
                                         ),
                                         Text(
                                           item.desc,
-                                          style: TextStyle(
+                                          style: GoogleFonts.openSans(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w300,
                                           ),
@@ -603,7 +567,7 @@ class _CartState extends State<Cart> {
                                             ),
                                             Text(
                                               item.qty.toString(),
-                                              style: TextStyle(
+                                              style: GoogleFonts.openSans(
                                                 fontSize: 13,
                                               ),
                                             ),
@@ -648,14 +612,14 @@ class _CartState extends State<Cart> {
                                       children: <Widget>[
                                         Text(
                                           'MRP',
-                                          style: TextStyle(
+                                          style: GoogleFonts.openSans(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                         Text(
                                           item.price,
-                                          style: TextStyle(
+                                          style: GoogleFonts.openSans(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w400,
                                           ),

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/Orders.dart';
 import 'package:groceryapp/Classes/Shops.dart';
@@ -100,9 +101,8 @@ class _OrdersState extends State<Orders> {
               padding: const EdgeInsets.only(left: 24.0, top: 8),
               child: Text(
                 'Your Orders',
-                style: TextStyle(
+                style: GoogleFonts.openSans(
                     color: kSecondaryColor,
-                    fontFamily: 'Poppins',
                     fontSize: pHeight * 0.035,
                     fontWeight: FontWeight.bold),
               ),
@@ -129,16 +129,15 @@ class _OrdersState extends State<Orders> {
                         child: Center(
                           child: Text(
                             'No orders to display',
-                            style: TextStyle(
+                            style: GoogleFonts.openSans(
                                 color: kSecondaryColor,
-                                fontFamily: 'Poppins',
                                 fontSize: pHeight * 0.03),
                           ),
                         ),
                       )
                     : Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(10),
                           child: ListView.builder(
                               itemCount: orders.length,
                               itemBuilder: (context, index) {
@@ -180,9 +179,8 @@ class _OrdersState extends State<Orders> {
                                               children: <Widget>[
                                                 Text(
                                                   item.shop.name,
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.openSans(
                                                       color: kSecondaryColor,
-                                                      fontFamily: 'Poppins',
                                                       fontSize: pHeight * 0.03,
                                                       fontWeight:
                                                           FontWeight.w600),
@@ -191,9 +189,8 @@ class _OrdersState extends State<Orders> {
                                                   width: pWidth * 0.62,
                                                   child: Text(
                                                     item.shop.address,
-                                                    style: TextStyle(
+                                                    style: GoogleFonts.openSans(
                                                         color: kSecondaryColor,
-                                                        fontFamily: 'Poppins',
                                                         fontSize:
                                                             pHeight * 0.015,
                                                         fontWeight:
@@ -204,17 +201,15 @@ class _OrdersState extends State<Orders> {
                                             ),
                                             Text(
                                               'Ordered on ${item.orderDate}',
-                                              style: TextStyle(
+                                              style: GoogleFonts.openSans(
                                                   color: kSecondaryColor,
-                                                  fontFamily: 'Poppins',
                                                   fontSize: pHeight * 0.015,
                                                   fontWeight: FontWeight.w500),
                                             ),
                                             Text(
                                               'Total amount - Rs. ${item.orderAmount}',
-                                              style: TextStyle(
+                                              style: GoogleFonts.openSans(
                                                   color: kSecondaryColor,
-                                                  fontFamily: 'Poppins',
                                                   fontSize: pHeight * 0.018,
                                                   fontWeight: FontWeight.bold),
                                             ),
@@ -240,11 +235,9 @@ class _OrdersState extends State<Orders> {
                                                           ),
                                                           Text(
                                                             'Delivered',
-                                                            style: TextStyle(
+                                                            style: GoogleFonts.openSans(
                                                                 color:
                                                                     kSecondaryColor,
-                                                                fontFamily:
-                                                                    'Poppins',
                                                                 fontSize:
                                                                     pHeight *
                                                                         0.018),
@@ -272,14 +265,13 @@ class _OrdersState extends State<Orders> {
                                                           ),
                                                           Text(
                                                             'Not delivered',
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.red,
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize:
-                                                                    pHeight *
-                                                                        0.018),
+                                                            style: GoogleFonts
+                                                                .openSans(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontSize:
+                                                                        pHeight *
+                                                                            0.018),
                                                           )
                                                         ],
                                                       )

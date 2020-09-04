@@ -80,12 +80,9 @@ class _HomeState extends State<Home> {
             height: pHeight * 0.02,
           ),
           UserGreetingBar(),
-          Container(
-              margin: EdgeInsets.all(10),
-              // color: Colors.blue,
-              child: SearchBar(shops, shopNames, this)),
+          Container(child: SearchBar(shops, shopNames, this)),
           Padding(
-            padding: const EdgeInsets.fromLTRB(26, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(26, 5, 0, 0),
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
