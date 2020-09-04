@@ -5,6 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:groceryapp/Classes/Constants.dart';
 import 'package:groceryapp/Classes/User.dart';
+import 'package:groceryapp/Screens/LoginScreen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
@@ -217,6 +219,7 @@ class _ProfileState extends State<Profile> {
             InkWell(
               onTap: () {
                 FirebaseAuth.instance.signOut();
+                pushNewScreen(context, screen: LoginPage(), withNavBar: false);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 19.5),

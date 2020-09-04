@@ -284,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 2,
       backgroundColor: color,
-      textColor: Colors.pinkAccent,
+      textColor: kSecondaryColor,
       fontSize: 16.0,
     );
   }
@@ -307,8 +307,7 @@ class _LoginPageState extends State<LoginPage> {
               .child('Users')
               .child(value.user.uid);
           dbRef.once().then((DataSnapshot snapshot) async {
-            String name = await snapshot.value['name'];
-            if (name == null) {
+            if (snapshot.value == null) {
               Navigator.pushReplacement(
                 context,
                 CupertinoPageRoute(
@@ -316,7 +315,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               );
             } else {
-              print(name);
+              print(snapshot.value);
               Navigator.pushReplacement(
                 context,
                 CupertinoPageRoute(
@@ -380,8 +379,7 @@ class _LoginPageState extends State<LoginPage> {
             .child('Users')
             .child(value.user.uid);
         dbRef.once().then((DataSnapshot snapshot) async {
-          String name = await snapshot.value['name'];
-          if (snapshot == null) {
+          if (snapshot.value == null) {
             Navigator.pushReplacement(
               context,
               CupertinoPageRoute(
@@ -389,7 +387,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             );
           } else {
-            print(name);
+            print(snapshot.value);
             Navigator.pushReplacement(
               context,
               CupertinoPageRoute(
