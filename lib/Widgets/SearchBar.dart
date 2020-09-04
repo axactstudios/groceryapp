@@ -20,7 +20,6 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return GFSearchBar(
-
       searchList: widget.shopNames,
       searchQueryBuilder: (query, list) {
         return list
@@ -28,12 +27,9 @@ class _SearchBarState extends State<SearchBar> {
             .toList();
       },
       overlaySearchListItemBuilder: (item) {
-        return Container(
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            item,
-            style: const TextStyle(fontSize: 18),
-          ),
+        return Text(
+          item,
+          style: const TextStyle(fontSize: 18),
         );
       },
       onItemSelected: (item) {

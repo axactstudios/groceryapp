@@ -9,7 +9,7 @@ import 'package:groceryapp/Classes/DatabaseHelper.dart';
 import 'package:groceryapp/Classes/Products.dart';
 import 'package:groceryapp/Classes/User.dart';
 import 'package:intl/intl.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+// import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cart extends StatefulWidget {
@@ -224,14 +224,14 @@ class _CartState extends State<Cart> {
     getAllItems();
   }
 
-  Razorpay _razorpay;
+  // Razorpay _razorpay;
 
   @override
   void initState() {
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    // _razorpay = Razorpay();
+    // _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    // _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     getUser();
     getAllItems();
   }
@@ -380,7 +380,7 @@ class _CartState extends State<Cart> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: kFormColor,
+                    color: Color(0xfff0f5f9),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   width: double.infinity,
@@ -423,19 +423,22 @@ class _CartState extends State<Cart> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(13.0),
+                        padding: const EdgeInsets.all(15.0),
                         child: RaisedButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          color: Colors.orange[800],
-                          child: Text(
-                            'Proceed to Pay',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontFamily: 'Poppins',
+                          color: Color(0xFFfc6011),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Proceed to Pay',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                              ),
                             ),
                           ),
                           onPressed: () {
@@ -639,7 +642,7 @@ class _CartState extends State<Cart> {
                                     flex: 2,
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: <Widget>[
@@ -674,39 +677,39 @@ class _CartState extends State<Cart> {
     );
   }
 
-  void openCheckout() async {
-    var options = {
-      'key': 'rzp_test_uqORQiidCVwzWI',
-      'amount': orderAmount,
-      'name': 'Axact Studios',
-      'description': 'Bill',
-      'prefill': {'contact': '', '': 'test@razorpay.com'},
-      'external': {
-        'wallets': ['paytm']
-      }
-    };
-
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      debugPrint(e);
-    }
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
-    onOrderPlaced();
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message,
-        timeInSecForIosWeb: 4);
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
-  }
+  // void openCheckout() async {
+  //   var options = {
+  //     'key': 'rzp_test_uqORQiidCVwzWI',
+  //     'amount': orderAmount,
+  //     'name': 'Axact Studios',
+  //     'description': 'Bill',
+  //     'prefill': {'contact': '', '': 'test@razorpay.com'},
+  //     'external': {
+  //       'wallets': ['paytm']
+  //     }
+  //   };
+  //
+  //   try {
+  //     _razorpay.open(options);
+  //   } catch (e) {
+  //     debugPrint(e);
+  //   }
+  // }
+  //
+  // void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+  //   Fluttertoast.showToast(
+  //       msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
+  //   onOrderPlaced();
+  // }
+  //
+  // void _handlePaymentError(PaymentFailureResponse response) {
+  //   Fluttertoast.showToast(
+  //       msg: "ERROR: " + response.code.toString() + " - " + response.message,
+  //       timeInSecForIosWeb: 4);
+  // }
+  //
+  // void _handleExternalWallet(ExternalWalletResponse response) {
+  //   Fluttertoast.showToast(
+  //       msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
+  // }
 }
