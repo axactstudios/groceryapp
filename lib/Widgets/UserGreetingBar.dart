@@ -58,62 +58,46 @@ class _UserGreetingBarState extends State<UserGreetingBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage("images/User.jpg"),
-          ),
-          title: Text(
-            "Good morning",
-            style: GoogleFonts.openSans(
-                fontSize: MediaQuery.of(context).size.height * 0.015),
-          ),
-          subtitle: userData.name == null
-              ? Text(
-                  'Anonymous',
-                  style: GoogleFonts.openSans(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                )
-              : Text(
-                  userData.name,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-          trailing: city == null
-              ? IconButton(
-                  onPressed: () {
-                    print("Location Pressed");
-                  },
-                  icon: Icon(
-                    Icons.location_on,
-                    size: 30,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage("images/User.jpg"),
+            ),
+            title: userData.name == null
+                ? Text(
+                    'Anonymous',
+                    style: GoogleFonts.openSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  )
+                : Text(
+                    userData.name,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
-                  color: Color(0xffF26016),
-                )
-              : Container(
-                  width: 100,
-                  height: 100,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(
-                        Icons.location_on,
-                        size: MediaQuery.of(context).size.width * 0.05,
-                        color: Color(0xffF26016),
-                      ),
-                      Text(
-                        city,
-                        style: TextStyle(
-                            color: kAccentColor,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                )),
+            trailing: city == null
+                ? IconButton(
+                    onPressed: () {
+                      print("Location Pressed");
+                    },
+                    icon: Icon(
+                      Icons.location_on,
+                      size: 30,
+                    ),
+                    color: Color(0xffF26016),
+                  )
+                : Text(
+                    city,
+                    style: TextStyle(
+                        color: kAccentColor,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold),
+                  )),
+      ),
     );
   }
 }

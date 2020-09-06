@@ -50,17 +50,13 @@ class _LoginPageState extends State<LoginPage> {
                   image: AssetImage(
                     'images/onboarding.png',
                   ),
-                  height: 0.22 * pHeight,
+                  height: 0.25 * pHeight,
                 ),
               ),
 //              SizedBox(
 //                height: pHeight * 0.001,
 //              ),
-              Text('Onboarding',
-                  style: GoogleFonts.openSans(
-                      textStyle: TextStyle(fontSize: 0.035 * pHeight))),
-              SizedBox(height: 0.01 * pHeight),
-              Image(image: AssetImage('images/Repeat Grid 2.png')),
+
               SizedBox(height: 0.01 * pHeight),
               Expanded(
                 child: Align(
@@ -148,16 +144,19 @@ class _LoginPageState extends State<LoginPage> {
                                       },
                                       child: Container(
                                           decoration: BoxDecoration(
-                                              color: kFormColor,
+                                              color: kAccentColor,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(10))),
                                           child: Padding(
-                                            padding:
-                                                EdgeInsets.all(pWidth * 0.03),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: pWidth * 0.03,
+                                                vertical: pHeight * 0.014),
                                             child: Text(
                                               'Get OTP',
                                               textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(),
+                                              style: GoogleFonts.openSans(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: kPrimaryColor),
                                             ),
                                           ))),
                                 ),

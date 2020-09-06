@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                                 height: 70,
                                 width: 70,
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(25, 10, 0, 0),
+                                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
                                   child: Image(
                                     image: AssetImage(
                                         categorylist[categoryindex].imageUrl),

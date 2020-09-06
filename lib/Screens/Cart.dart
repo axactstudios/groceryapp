@@ -99,6 +99,7 @@ class _CartState extends State<Cart> {
 
     if (this.mounted) {
       setState(() {
+        // print(products);
         // print(products.length);
         getOrderAmount();
       });

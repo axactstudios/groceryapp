@@ -102,10 +102,10 @@ class _ProfileState extends State<Profile> {
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            backgroundImage: ExactAssetImage('images/guy.png'),
+                            backgroundImage: ExactAssetImage('images/User.jpg'),
                             radius: 30,
                           ),
                           SizedBox(
@@ -143,6 +143,9 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
+            SizedBox(
+              height: 10,
+            ),
             InkWell(
               onTap: () {
                 _launchURL('https://www.google.com/');
@@ -154,13 +157,13 @@ class _ProfileState extends State<Profile> {
                     Spacer(),
                     Icon(
                       Icons.info_outline,
-                      size: 40,
+                      size: pWidth * 0.06,
                     ),
                     Spacer(),
                     Text(
                       'About',
                       style: GoogleFonts.openSans(
-                          fontSize: 25,
+                          fontSize: pWidth * 0.055,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
                     ),
@@ -188,21 +191,23 @@ class _ProfileState extends State<Profile> {
                 padding: EdgeInsets.symmetric(vertical: pHeight * 0.01),
                 child: Row(
                   children: [
-                    Spacer(),
+                    Spacer(
+                      flex: 2,
+                    ),
                     Icon(
                       Icons.warning,
-                      size: 40,
+                      size: pWidth * 0.06,
                     ),
-                    Spacer(),
+                    Spacer(flex: 2),
                     Text(
                       'Send Feedback',
                       style: GoogleFonts.openSans(
-                          fontSize: 25,
+                          fontSize: pWidth * 0.055,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
                     ),
                     Spacer(
-                      flex: 1,
+                      flex: 3,
                     ),
                   ],
                 ),
@@ -229,13 +234,13 @@ class _ProfileState extends State<Profile> {
                     Spacer(),
                     Icon(
                       Icons.exit_to_app,
-                      size: 40,
+                      size: pWidth * 0.06,
                     ),
                     Spacer(),
                     Text(
                       'Log Out',
                       style: GoogleFonts.openSans(
-                          fontSize: 25,
+                          fontSize: pWidth * 0.055,
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
                     ),
