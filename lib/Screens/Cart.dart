@@ -1,3 +1,4 @@
+import 'package:date_field/date_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -122,6 +123,8 @@ class _CartState extends State<Cart> {
     }
   }
 
+  DateTime selectedDate;
+
   void removeItem(String name) async {
     // Assuming that the number of rows is the id for the last row.
     final rowsDeleted = await dbHelper.delete(name);
@@ -130,7 +133,7 @@ class _CartState extends State<Cart> {
         msg: 'Removed from cart', toastLength: Toast.LENGTH_SHORT);
   }
 
-  onOrderPlaced() async {
+  onTakeAwayPlaced() async {
     print('Placing your order');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String shopKey = await prefs.getString('key');
@@ -185,6 +188,8 @@ class _CartState extends State<Cart> {
         .child('Orders')
         .child(dateTime)
         .set({
+      'type': 'takeaway',
+      'takeawaytime': selectedDate.toString(),
       'isCompleted': false,
       'orderDate': date,
       'orderTime': time,
@@ -207,6 +212,107 @@ class _CartState extends State<Cart> {
         .child('Orders')
         .child(dateTime)
         .set({
+      'type': 'takeaway',
+      'takeawaytime': selectedDate.toString(),
+      'isCompleted': false,
+      'status': 'Placed',
+      'orderDate': date,
+      'orderTime': time,
+      'orderAmount': orderAmount,
+      'orderKey': dateTime,
+      'itemsName': itemsName,
+      'itemsQty': itemsQty,
+      'shippingDate': 'Not yet shipped',
+      'deliveryDate': 'Not yet delivered',
+      'customerName': userData.name,
+      'customerPhone': userData.phoneNo,
+      'customerAddress': userData.address,
+      'customerZip': userData.zip,
+      'customerUid': userData.uid
+    });
+
+    emptyCart();
+  }
+
+  onHomeDeliveryPlaced() async {
+    print('Placing your order');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String shopKey = await prefs.getString('key');
+    String shopCategory = await prefs.getString('category');
+    String shopName = await prefs.getString('name');
+
+    DateTime orderDate = DateTime.now();
+    String date = DateFormat('dd-MM-yyyy').format(orderDate);
+    String time = DateFormat('kk:mm').format(orderDate);
+    String dateTime = DateFormat('dd-MM-yyyy kk:mm').format(orderDate);
+
+    List<String> itemsName = [];
+    List<int> itemsQty = [];
+    int i;
+
+    for (i = 0; i < products.length; i++) {
+      itemsName.add(products[i].name);
+      itemsQty.add(products[i].qty);
+      print(products[i].prodCategory);
+      print(products[i].key);
+
+      int stockQty;
+      print(shopKey);
+      final dbRef = FirebaseDatabase.instance
+          .reference()
+          .child(shopCategory)
+          .child(shopKey)
+          .child('Categories')
+          .child(products[i].prodCategory)
+          .child(products[i].key);
+      await dbRef.once().then((DataSnapshot snapshot) async {
+        if (snapshot.value == null)
+          print('===============${snapshot.value}');
+        else
+          print('===============');
+        stockQty = await snapshot.value['stockQty'];
+      }).then((value) {
+        print('${products[i].name}\'s quantity fetched');
+      });
+      await dbRef
+          .update({'stockQty': stockQty - products[i].qty}).then((value) {
+        print('${products[i].name} Updated');
+      });
+      await print('Order Placed');
+    }
+
+    FirebaseUser user = await mAuth.currentUser();
+    final dbRef1 = await FirebaseDatabase.instance
+        .reference()
+        .child('Users')
+        .child(user.uid)
+        .child('Orders')
+        .child(dateTime)
+        .set({
+      'type': 'homedelivery',
+      'isCompleted': false,
+      'orderDate': date,
+      'orderTime': time,
+      'orderAmount': orderAmount,
+      'shopKey': shopKey,
+      'shopName': shopName,
+      'shopCategory': shopCategory,
+      'orderKey': dateTime,
+      'itemsName': itemsName,
+      'itemsQty': itemsQty,
+      'status': 'Placed',
+      'shippingDate': 'Not yet shipped',
+      'deliveryDate': 'Not yet delivered'
+    });
+
+    final dbRef2 = await FirebaseDatabase.instance
+        .reference()
+        .child(shopCategory)
+        .child(shopKey)
+        .child('Orders')
+        .child(dateTime)
+        .set({
+      'type': 'homedelivery',
       'isCompleted': false,
       'status': 'Placed',
       'orderDate': date,
@@ -233,14 +339,57 @@ class _CartState extends State<Cart> {
     getAllItems();
   }
 
-  // Razorpay _razorpay;
+  var startdate;
 
+  Future<DateTime> getDate(BuildContext context) {
+    // Imagine that this function is
+    // more complex and slow.
+    return showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2018),
+      lastDate: DateTime(2030),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark(),
+          child: child,
+        );
+      },
+    );
+  }
+
+  void startDatePicker() async {
+    var order1 = await getDate(context);
+    String date;
+    setState(() {
+      if (order1.month < 10) {
+        if (order1.day < 10) {
+          date = '${order1.year}-0${order1.month}-0${order1.day}';
+        } else {
+          date = '${order1.year}-0${order1.month}-${order1.day}';
+        }
+      } else {
+        if (order1.day < 10) {
+          date = '${order1.year}-0${order1.month}-0${order1.day}-';
+        } else {
+          date = '${order1.year}-0${order1.month}-${order1.day}';
+        }
+      }
+      startdate = date;
+
+      Navigator.pop(context);
+    });
+  }
+
+  // Razorpay _razorpay;
+  String type;
   @override
   void initState() {
     // _razorpay = Razorpay();
     // _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     // _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    type = 'HomeDelivery';
     getUser();
     getAllItems();
   }
@@ -425,6 +574,82 @@ class _CartState extends State<Cart> {
                           ],
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: type == 'HomeDelivery'
+                                  ? Color(0xFFfc6011)
+                                  : Colors.grey,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Home Delivery',
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  type = 'HomeDelivery';
+                                });
+                                // onOrderPlaced();
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              color: type == 'TakeAway'
+                                  ? Color(0xFFfc6011)
+                                  : Colors.grey,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Take Away',
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  type = 'TakeAway';
+                                });
+                                // onOrderPlaced();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      type == 'TakeAway'
+                          ? Container(
+                              width: 200,
+                              child: DateTimeField(
+                                selectedDate: selectedDate,
+                                onDateSelected: (DateTime date) {
+                                  setState(() {
+                                    selectedDate = date;
+                                  });
+                                },
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime(2021),
+                              ),
+                            )
+                          : Container(),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: RaisedButton(
@@ -435,7 +660,7 @@ class _CartState extends State<Cart> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Proceed to Pay',
+                              'Confirm Order',
                               style: GoogleFonts.openSans(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -444,7 +669,9 @@ class _CartState extends State<Cart> {
                             ),
                           ),
                           onPressed: () {
-                            onOrderPlaced();
+                            type == 'HomeDelivery'
+                                ? onHomeDeliveryPlaced()
+                                : onTakeAwayPlaced();
                           },
                         ),
                       ),
