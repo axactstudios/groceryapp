@@ -15,6 +15,7 @@ dependencies:
   map: ^0.1.0+1
   latlng: ^0.0.2
   date_field: ^0.3.2
+  flutter_automation: ^1.1.4
   gps: ^0.1.1
   firebase_auth: ^0.15.2
 #  razorpay_flutter: 1.2.2
